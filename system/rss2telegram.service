@@ -1,0 +1,15 @@
+[Unit]
+Description=RSS to Telegram service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+WorkingDirectory=/home/acruz/dev/rss2telegram
+Type=simple
+Restart=always
+RestartSec=1
+User=acruz
+ExecStart=/home/acruz/.virtualenvs/rss2telegram/bin/python3.8 /home/acruz/dev/rss2telegram/rss_2_telegram.py 
+
+[Install]
+WantedBy=multi-user.target
