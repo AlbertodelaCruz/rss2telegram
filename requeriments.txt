@@ -7,3 +7,4 @@ requests==2.26.0
 sgmllib3k==1.0.0
 urllib3==1.26.7
 python-dotenv==0.19.1
+tweepy==4.1.0
