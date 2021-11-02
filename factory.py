@@ -7,5 +7,5 @@ import requests
 
 class EnvLoader:
     def load_dotenv(self):
-        dotenv_path = Path('./system/.env.test')
+        dotenv_path = Path('./system/.env')
         load_dotenv(dotenv_path=dotenv_path)
