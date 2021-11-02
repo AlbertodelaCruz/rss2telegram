@@ -1,6 +1,7 @@
-from mamba import description, context, it
-from doublex import Spy, when
+from mamba import description, context, it, before
+from doublex import Spy, when, ANY_ARG
 from expects import expect, raise_error
+from doublex_expects import have_been_called_with
 
 from dotenv import load_dotenv
 
@@ -11,15 +12,40 @@ from feeder import Feeder
 
 with description('App rss_to_telegram'):
     with context('running the service'):
-        with it('executes and finish correctly'):
-            env_loader = Spy(EnvLoader)
-            my_logger = Spy()
-            twitter = Twitter(env_loader)
-            feeder = Feeder(env_loader)
+        with before.each:
+            self.my_logger = Spy()
+            self.last_entry_service = Spy()
+            self.twitter = Spy(Twitter)
+            self.feeder = Spy(Feeder)
+            self.a_datetime = 'a_datetime'
+            self.last_entry_datetimes = {'feed': self.a_datetime, 'twitter': self.a_datetime}
+            self.a_feed_entry = {'title': 'a_title'}
+            self.a_twitter_entry = FakeTwitterEntry()
+            when(self.feeder).get_new_entries(ANY_ARG).returns(('a_date', [self.a_feed_entry]))
+            when(self.twitter).get_new_entries(ANY_ARG).returns(('a_date', [self.a_twitter_entry]))
+            when(self.last_entry_service).get_file(ANY_ARG).returns('/dev/null')
 
-            when(env_loader).load_dotenv().returns(load_dotenv('./system/.env.test'))
+        with it('retrieves new feeds'):
+            main(self.my_logger, self.last_entry_service, self.twitter, self.feeder, self.last_entry_datetimes)
 
-            def executes_program_does_not_raise_error():
-                main(env_loader, my_logger, twitter, feeder)
+            expect(self.feeder.get_new_entries).to(have_been_called_with(self.a_datetime))
 
-            expect(executes_program_does_not_raise_error).not_to(raise_error(Exception))
+        with it('retrieves new tweets'):
+            main(self.my_logger, self.last_entry_service, self.twitter, self.feeder, self.last_entry_datetimes)
+
+            expect(self.twitter.get_new_entries).to(have_been_called_with(self.a_datetime))
+
+        with it('sends to telegram new feeds'):
+            main(self.my_logger, self.last_entry_service, self.twitter, self.feeder, self.last_entry_datetimes)
+
+            expect(self.feeder.send_entries).to(have_been_called_with([self.a_feed_entry]))
+
+        with it('sends to telegram new tweets'):
+            main(self.my_logger, self.last_entry_service, self.twitter, self.feeder, self.last_entry_datetimes)
+
+            expect(self.twitter.send_entries).to(have_been_called_with([self.a_twitter_entry]))
+
+
+class FakeTwitterEntry():
+    def __init__(self):
+        self._json = {'text': 'a_text'}
