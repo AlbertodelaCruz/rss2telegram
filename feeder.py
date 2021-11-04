@@ -9,7 +9,7 @@ class Feeder:
     def __init__(self, env_loader):
         env_loader.load_dotenv()
         self.blog_url = os.getenv('BLOG_URL')
-        self.feed_author = os.getenv('FEED_AUTHOR')
+        self.feed_authors = os.getenv('FEED_AUTHORS')
         self.bot_token = os.getenv('BOT_TOKEN')
         self.bot_chatID = os.getenv('BOT_CHATID')
 
@@ -20,7 +20,7 @@ class Feeder:
         new_entries = []
         for entry in sorted_entries:
             published_time = datetime.strptime(entry['published'], "%a, %d %b %Y %H:%M:%S %z" )
-            if published_time > old_messages_datetime and entry['author'] == self.feed_author:
+            if published_time > old_messages_datetime and entry['author'] in self.feed_authors:
                 old_messages_datetime = published_time
                 new_entries.append(entry)
         return old_messages_datetime, new_entries
