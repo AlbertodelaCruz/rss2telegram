@@ -6,7 +6,7 @@ import feedparser
 
 
 class Feeder:
-    def __init__(self, env_loader):
+    def __init__(self, env_loader, feedparser):
         env_loader.load_dotenv()
         self.blog_url = os.getenv('BLOG_URL')
         self.feed_author = os.getenv('FEED_AUTHOR')
@@ -14,9 +14,10 @@ class Feeder:
         self.english_feed_tag = os.getenv('ENGLISH_FEED_TAG')
         self.bot_token = os.getenv('BOT_TOKEN')
         self.bot_chatID = os.getenv('BOT_CHATID')
+        self.parser = feedparser
 
     def get_new_entries(self, old_messages_datetime):
-        feed = feedparser.parse(self.blog_url)
+        feed = self.parser.parse(self.blog_url)
         entries = feed['entries']
         sorted_entries = sorted(entries, key=lambda d: d['published'])
         new_entries = []

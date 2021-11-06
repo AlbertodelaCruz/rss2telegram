@@ -5,6 +5,7 @@ from expects import expect, raise_error
 from dotenv import load_dotenv
 from datetime import datetime
 import pytz
+import feedparser
 
 from rss_2_telegram import main
 from factory import EnvLoader
@@ -20,10 +21,13 @@ with description('App rss_to_telegram'):
             my_logger = Spy()
             last_entry_datetimes = {'feed': datetime.now(pytz.utc), 'twitter': datetime.now(pytz.utc)}
             twitter = Twitter(env_loader)
-            feeder = Feeder(env_loader)
+            feeder = Feeder(env_loader, feedparser)
             last_entry_service = LastEntryService(env_loader, my_logger)
 
             def executes_program_does_not_raise_error():
-                main(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
+                try:
+                    main(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
+                except Exception as e:
+                    print(e)
 
             expect(executes_program_does_not_raise_error).not_to(raise_error(Exception))

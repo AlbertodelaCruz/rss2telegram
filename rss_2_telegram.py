@@ -1,6 +1,7 @@
 import time
 import logging
 import logging.handlers
+import feedparser
 
 from factory import EnvLoader, Logger
 from twitter import Twitter
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     my_logger.info("Starting pogram")
     env_loader = EnvLoader()
     twitter = Twitter(env_loader)
-    feeder = Feeder(env_loader)
+    feeder = Feeder(env_loader, feedparser)
     last_entry_service = LastEntryService(env_loader, my_logger)
 
     last_entry_datetimes = last_entry_service.last_time_saved()
