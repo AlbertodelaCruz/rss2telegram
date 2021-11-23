@@ -19,7 +19,7 @@ with description('Feeder service'):
             self.feedparser = Spy()
             self.feeder = Feeder(env_loader, self.feedparser)
 
-        with context('no matching author'):
+        with context('no matching tags'):
             with it('returns saved datetime and empty list'):
                 published_entry = datetime.strptime('Fri, 29 Oct 2022 13:06:57 +0000', "%a, %d %b %Y %H:%M:%S %z" )
                 a_feed = object_mother.a_feed('an_author', 'a_custom_tag', 'Fri, 29 Oct 2022 13:06:57 +0000')
@@ -30,36 +30,15 @@ with description('Feeder service'):
 
                 expect(result).to(equal((last_entry_datetime, [])))
 
-        with context('matching author'):
+        with context('matching with env tag'):
             with it('returns last feed datetime and feed'):
+                tags_permitted = os.getenv('FEED_TAGS')
+                a_tag_permitted = tags_permitted.split(',')[0]
                 published_entry = datetime.strptime('Fri, 29 Oct 2022 13:06:57 +0000', "%a, %d %b %Y %H:%M:%S %z" )
-                a_feed = object_mother.a_feed(os.getenv('FEED_AUTHOR'), 'a_custom_tag', 'Fri, 29 Oct 2022 13:06:57 +0000')
+                a_feed = object_mother.a_feed(os.getenv('FEED_AUTHOR'), a_tag_permitted, 'Fri, 29 Oct 2022 13:06:57 +0000')
                 when(self.feedparser).parse(ANY_ARG).returns({'entries': [a_feed]})
                 last_entry_datetime = object_mother.now()
 
                 result = self.feeder.get_new_entries(last_entry_datetime)
 
                 expect(result).to(equal((published_entry, [a_feed])))
-
-        with context('english author'):
-            with context('when match author and tag'):
-                with it('returns last feed datetime and feed'):
-                    published_entry = datetime.strptime('Fri, 29 Oct 2022 13:06:57 +0000', "%a, %d %b %Y %H:%M:%S %z" )
-                    a_feed = object_mother.a_feed(os.getenv('ENGLISH_FEED_AUTHOR'), os.getenv('ENGLISH_FEED_TAG'), 'Fri, 29 Oct 2022 13:06:57 +0000')
-                    when(self.feedparser).parse(ANY_ARG).returns({'entries': [a_feed]})
-                    last_entry_datetime = object_mother.now()
-
-                    result = self.feeder.get_new_entries(last_entry_datetime)
-
-                    expect(result).to(equal((published_entry, [a_feed])))
-
-            with context('when match author but not tags'):
-                with it('returns saved datetime and empty list'):
-                    published_entry = datetime.strptime('Fri, 29 Oct 2022 13:06:57 +0000', "%a, %d %b %Y %H:%M:%S %z" )
-                    a_feed = object_mother.a_feed(os.getenv('ENGLISH_FEED_AUTHOR'), 'a_custom_tag', 'Fri, 29 Oct 2022 13:06:57 +0000')
-                    when(self.feedparser).parse(ANY_ARG).returns({'entries': [a_feed]})
-                    last_entry_datetime = object_mother.now()
-
-                    result = self.feeder.get_new_entries(last_entry_datetime)
-
-                    expect(result).to(equal((last_entry_datetime, [])))
