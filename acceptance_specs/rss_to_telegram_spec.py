@@ -26,9 +26,6 @@ with description('App rss_to_telegram'):
             self.send_new_entries_use_case = SendNewEntries(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
 
             def executes_program_does_not_raise_error():
-                try:
-                    self.send_new_entries_use_case.send()
-                except Exception as e:
-                    print(e)
+                self.send_new_entries_use_case.send()
 
             expect(executes_program_does_not_raise_error).not_to(raise_error(Exception))
