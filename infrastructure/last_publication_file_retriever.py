@@ -2,9 +2,10 @@ import os
 import pickle
 from datetime import datetime
 import pytz
+from model.last_publication_retriever import LastPublicationRetriever
 
 
-class LastEntryService:
+class LastPublicationFileRetriever(LastPublicationRetriever):
     def __init__(self, env_loader, my_logger):
         env_loader.load_dotenv()
         self.last_entry_file_path = os.getenv('LAST_ENTRY_FILE_PATH')

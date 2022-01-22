@@ -11,7 +11,7 @@ from use_case.send_new_entries import SendNewEntries
 from factory import EnvLoader, TwitterAPI
 from infrastructure.twitter import Twitter
 from infrastructure.blog import Blog
-from model.last_entry_service import LastEntryService
+from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
 
 with description('App rss_to_telegram'):
     with context('running the service'):
@@ -23,7 +23,7 @@ with description('App rss_to_telegram'):
             last_entry_datetimes = {'feed': datetime.now(pytz.utc), 'twitter': datetime.now(pytz.utc)}
             twitter = Twitter(env_loader, twitter_client)
             feeder = Blog(env_loader, feedparser)
-            last_entry_service = LastEntryService(env_loader, my_logger)
+            last_entry_service = LastPublicationFileRetriever(env_loader, my_logger)
             self.send_new_entries_use_case = SendNewEntries(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
 
             def executes_program_does_not_raise_error():
