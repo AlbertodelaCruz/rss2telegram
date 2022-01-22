@@ -8,10 +8,10 @@ import pytz
 import feedparser
 
 from use_case.send_new_entries import SendNewEntries
-from factory import EnvLoader
+from factory import EnvLoader, TwitterAPI
 from infrastructure.twitter import Twitter
 from infrastructure.blog import Blog
-from last_entry_service import LastEntryService
+from model.last_entry_service import LastEntryService
 
 with description('App rss_to_telegram'):
     with context('running the service'):
@@ -19,8 +19,9 @@ with description('App rss_to_telegram'):
             env_loader = Spy(EnvLoader)
             when(env_loader).load_dotenv().returns(load_dotenv('./system/.env.test'))
             my_logger = Spy()
+            twitter_client = TwitterAPI(env_loader)
             last_entry_datetimes = {'feed': datetime.now(pytz.utc), 'twitter': datetime.now(pytz.utc)}
-            twitter = Twitter(env_loader)
+            twitter = Twitter(env_loader, twitter_client)
             feeder = Blog(env_loader, feedparser)
             last_entry_service = LastEntryService(env_loader, my_logger)
             self.send_new_entries_use_case = SendNewEntries(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)

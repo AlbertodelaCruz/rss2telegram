@@ -2,41 +2,36 @@ from datetime import datetime
 import requests
 import os
 
-import tweepy
 
 from model.entry_service import EntryService
+from model.publication.publication import Publication
 
 
 class Twitter(EntryService):
-    def __init__(self, env_loader):
+    def __init__(self, env_loader, twitter_api):
         env_loader.load_dotenv()
-        twitter_api_key = os.getenv('TWITTER_API_KEY')
-        twitter_api_secret = os.getenv('TWITTER_API_SECRET')
-        twitter_access_token = os.getenv('TWITTER_ACCESS_TOKEN')
-        twitter_access_secret = os.getenv('TWITTER_ACCESS_SECRET')
         self.twitter_account = os.getenv('TWITTER_ACCOUNT')
         self.bot_token = os.getenv('BOT_TOKEN')
         self.bot_chatID = os.getenv('BOT_CHATID')
-        auth = tweepy.OAuthHandler(twitter_api_key, twitter_api_secret)
-        auth.set_access_token(twitter_access_token, twitter_access_secret)
-        self.api = tweepy.API(auth)
+        self._twitter_api = twitter_api
 
-    def get_new_entries(self, old_messages_datetime):
-        timeline = self.api.user_timeline(screen_name=self.twitter_account)
-        new_tweets = []
+    def get_new_publications(self, old_messages_datetime):
+        timeline = self._twitter_api.user_timeline(screen_name=self.twitter_account)
+        new_publications = []
         for tweet in timeline:
-            old_messages_datetime, new_tweets = self._append_new_tweets(tweet, new_tweets, old_messages_datetime)
-        return old_messages_datetime, new_tweets
+            old_messages_datetime, new_publications = self._append_new_publications(tweet, new_publications, old_messages_datetime)
+        return old_messages_datetime, new_publications
 
-    def send_entries(self, entries):
-        for entry in entries:
-            telegram_body = {'chat_id':f'{self.bot_chatID}', 'parse_mode':'Markdown', 'text':f"{entry._json['text']}"}
+    def send_publications(self, publications):
+        for publication in publications:
+            telegram_body = {'chat_id':f'{self.bot_chatID}', 'parse_mode':'Markdown', 'text':f"{publication.content}"}
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             _ = requests.post(url, json=telegram_body)
 
-    def _append_new_tweets(self, tweet, tweets, old_messages_datetime):
+    def _append_new_publications(self, tweet, new_publications, old_messages_datetime):
         published_time = datetime.strptime(tweet._json['created_at'], "%a %b %d %H:%M:%S %z %Y")
         if published_time > old_messages_datetime:
             old_messages_datetime = published_time
-            tweets.append(tweet)
-        return old_messages_datetime, tweets
+            publication = Publication(date=published_time, title='', content=tweet._json['text'])
+            new_publications.append(publication)
+        return old_messages_datetime, new_publications

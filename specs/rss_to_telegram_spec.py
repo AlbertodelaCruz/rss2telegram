@@ -22,8 +22,8 @@ with description('App rss_to_telegram'):
             self.send_new_entries_use_case = SendNewEntries(self.my_logger, self.last_entry_service, self.twitter,
                                                        self.feeder, self.last_entry_datetimes)
 
-            when(self.feeder).get_new_entries(ANY_ARG).returns(('a_date', [self.a_feed_entry]))
-            when(self.twitter).get_new_entries(ANY_ARG).returns(('a_date', [self.a_twitter_entry]))
+            when(self.feeder).get_new_publications(ANY_ARG).returns(('a_date', [self.a_feed_entry]))
+            when(self.twitter).get_new_publications(ANY_ARG).returns(('a_date', [self.a_twitter_entry]))
             when(self.last_entry_service).get_file(ANY_ARG).returns('/dev/null')
 
 

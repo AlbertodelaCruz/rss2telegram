@@ -1,6 +1,6 @@
 class EntryService:
-    def get_new_entries(self, old_messages_datetime):
+    def get_new_publications(self, old_messages_datetime):
         raise NotImplementedError
 
-    def send_entries(self, entries):
+    def send_publications(self, entries):
         raise NotImplementedError

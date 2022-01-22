@@ -11,6 +11,7 @@ from specs import object_mother
 from factory import EnvLoader
 from infrastructure.blog import Blog
 
+
 with description('Feeder service'):
     with context('getting new entries'):
         with before.each:
@@ -26,19 +27,21 @@ with description('Feeder service'):
                 when(self.feedparser).parse(ANY_ARG).returns({'entries': [a_feed]})
                 last_entry_datetime = object_mother.now()
 
-                result = self.feeder.get_new_entries(last_entry_datetime)
+                result = self.feeder.get_new_publications(last_entry_datetime)
 
                 expect(result).to(equal((last_entry_datetime, [])))
 
         with context('matching with env tag'):
-            with it('returns last feed datetime and feed'):
+            with it('returns last published datetime and publication'):
                 tags_permitted = os.getenv('FEED_TAGS')
                 a_tag_permitted = tags_permitted.split(',')[0]
-                published_entry = datetime.strptime('Fri, 29 Oct 2022 13:06:57 +0000', "%a, %d %b %Y %H:%M:%S %z" )
-                a_feed = object_mother.a_feed(os.getenv('FEED_AUTHOR'), a_tag_permitted, 'Fri, 29 Oct 2022 13:06:57 +0000')
+                published_date = 'Fri, 29 Oct 2022 13:06:57 +0000'
+                published_entry = datetime.strptime(published_date, "%a, %d %b %Y %H:%M:%S %z" )
+                a_feed = object_mother.a_feed(os.getenv('FEED_AUTHOR'), a_tag_permitted, published_date)
+                a_publication = object_mother.a_publication(date=published_entry)
                 when(self.feedparser).parse(ANY_ARG).returns({'entries': [a_feed]})
                 last_entry_datetime = object_mother.now()
 
-                result = self.feeder.get_new_entries(last_entry_datetime)
+                result = self.feeder.get_new_publications(last_entry_datetime)
 
-                expect(result).to(equal((published_entry, [a_feed])))
+                expect(result).to(equal((published_entry, [a_publication])))

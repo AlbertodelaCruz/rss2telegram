@@ -3,6 +3,7 @@ import requests
 import os
 
 from model.entry_service import EntryService
+from model.publication.publication import Publication
 
 
 class Blog(EntryService):
@@ -14,27 +15,28 @@ class Blog(EntryService):
         self.bot_chatID = os.getenv('BOT_CHATID')
         self.parser = feedparser
 
-    def get_new_entries(self, old_messages_datetime):
+    def get_new_publications(self, old_messages_datetime):
         feed = self.parser.parse(self.blog_url)
         entries = feed['entries']
         sorted_entries = sorted(entries, key=lambda d: d['published'])
-        new_entries = []
+        publications = []
         for entry in sorted_entries:
-            old_messages_datetime, new_entries = self._append_new_entries(entry, new_entries, old_messages_datetime)
-        return old_messages_datetime, new_entries
+            old_messages_datetime, publications = self._append_new_publications(entry, publications, old_messages_datetime)
+        return old_messages_datetime, publications
 
-    def send_entries(self, entries):
-        for entry in entries:
-            url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage?chat_id={self.bot_chatID}&parse_mode=Markdown&text={entry['title']}"
+    def send_publications(self, publications):
+        for publication in publications:
+            url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage?chat_id={self.bot_chatID}&parse_mode=Markdown&text={publication.title}"
             _ = requests.get(url)
-            url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage?chat_id={self.bot_chatID}&parse_mode=Markdown&text={entry['link']}"
+            url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage?chat_id={self.bot_chatID}&parse_mode=Markdown&text={publication.content}"
             _ = requests.get(url)
 
-    def _append_new_entries(self, entry, entries, old_messages_datetime):
+    def _append_new_publications(self, entry, publications, old_messages_datetime):
         published_time = datetime.strptime(entry['published'], "%a, %d %b %Y %H:%M:%S %z")
         if published_time > old_messages_datetime:
             for feed_tag_permitted in self.feed_tags:
                 if feed_tag_permitted in entry['tags'][0].values():
                     old_messages_datetime = published_time
-                    entries.append(entry)
-        return old_messages_datetime, entries
+                    publication = Publication(date=published_time, title=entry['title'], content=entry['link'])
+                    publications.append(publication)
+        return old_messages_datetime, publications
