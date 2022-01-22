@@ -1,4 +1,4 @@
-class EntryService:
+class PublicationService:
     def get_new_publications(self, old_messages_datetime):
         raise NotImplementedError
 
