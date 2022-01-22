@@ -8,7 +8,7 @@ from use_case.send_new_publications import SendNewPublications
 from infrastructure.twitter import Twitter
 from infrastructure.blog import Blog
 
-with description('App rss_to_telegram'):
+with description('App rss_to_telegram') as self:
     with context('running the service'):
         with before.each:
             self.my_logger = Spy()

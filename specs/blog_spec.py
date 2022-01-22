@@ -1,4 +1,4 @@
-from mamba import description, context, it
+from mamba import description, context, it, before
 from doublex import Spy, when, ANY_ARG
 from expects import expect, equal
 
@@ -12,7 +12,7 @@ from factory import EnvLoader
 from infrastructure.blog import Blog
 
 
-with description('Feeder service'):
+with description('Feeder service') as self:
     with context('getting new entries'):
         with before.each:
             env_loader = Spy(EnvLoader)
