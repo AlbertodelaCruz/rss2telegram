@@ -7,7 +7,7 @@ from datetime import datetime
 import pytz
 import feedparser
 
-from use_case.send_new_entries import SendNewEntries
+from use_case.send_new_publications import SendNewPublications
 from factory import EnvLoader, TwitterAPI
 from infrastructure.twitter import Twitter
 from infrastructure.blog import Blog
@@ -24,7 +24,7 @@ with description('App rss_to_telegram'):
             twitter = Twitter(env_loader, twitter_client)
             feeder = Blog(env_loader, feedparser)
             last_entry_service = LastPublicationFileRetriever(env_loader, my_logger)
-            self.send_new_entries_use_case = SendNewEntries(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
+            self.send_new_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
 
             def executes_program_does_not_raise_error():
                 self.send_new_entries_use_case.send()

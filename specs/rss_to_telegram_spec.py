@@ -4,7 +4,7 @@ from expects import expect
 from doublex_expects import have_been_called_with
 
 from specs import object_mother
-from use_case.send_new_entries import SendNewEntries
+from use_case.send_new_publications import SendNewPublications
 from infrastructure.twitter import Twitter
 from infrastructure.blog import Blog
 
@@ -20,8 +20,8 @@ with description('App rss_to_telegram'):
             self.a_feed_publication = object_mother.a_publication(date=self.a_datetime)
             self.a_twitter_publication = object_mother.a_publication(date=self.a_datetime)
 
-            self.send_new_entries_use_case = SendNewEntries(self.my_logger, self.last_entry_service, self.twitter,
-                                                       self.feeder, self.last_entry_datetimes)
+            self.send_new_entries_use_case = SendNewPublications(self.my_logger, self.last_entry_service, self.twitter,
+                                                                 self.feeder, self.last_entry_datetimes)
 
             when(self.feeder).get_new_publications(ANY_ARG).returns(('a_date', [self.a_feed_publication]))
             when(self.twitter).get_new_publications(ANY_ARG).returns(('a_date', [self.a_twitter_publication]))

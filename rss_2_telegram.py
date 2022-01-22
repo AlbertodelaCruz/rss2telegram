@@ -5,7 +5,7 @@ from factory import EnvLoader, Logger, TwitterAPI
 from infrastructure.twitter import Twitter
 from infrastructure.blog import Blog
 from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
-from use_case.send_new_entries import SendNewEntries
+from use_case.send_new_publications import SendNewPublications
 
 if __name__ == "__main__":
     my_logger = Logger.get_logger()
@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     last_entry_datetimes = last_entry_service.last_time_saved()
 
-    send_entries_use_case = SendNewEntries(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
+    send_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
 
     while True:
         send_entries_use_case.send()

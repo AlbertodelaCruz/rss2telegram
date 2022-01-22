@@ -1,4 +1,4 @@
-class SendNewEntries:
+class SendNewPublications:
     def __init__(self, my_logger, last_entry_service, twitter, feeder, last_entry_datetimes):
         self._my_logger = my_logger
         self._last_entry_service = last_entry_service
