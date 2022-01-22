@@ -9,7 +9,7 @@ from datetime import datetime
 from specs import object_mother
 
 from factory import EnvLoader
-from feeder import Feeder
+from infrastructure.blog import Blog
 
 with description('Feeder service'):
     with context('getting new entries'):
@@ -17,7 +17,7 @@ with description('Feeder service'):
             env_loader = Spy(EnvLoader)
             when(env_loader).load_dotenv().returns(load_dotenv('./system/.env.test'))
             self.feedparser = Spy()
-            self.feeder = Feeder(env_loader, self.feedparser)
+            self.feeder = Blog(env_loader, self.feedparser)
 
         with context('no matching tags'):
             with it('returns saved datetime and empty list'):

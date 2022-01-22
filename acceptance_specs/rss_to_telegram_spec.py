@@ -7,10 +7,10 @@ from datetime import datetime
 import pytz
 import feedparser
 
-from rss_2_telegram import main
+from use_case.send_new_entries import SendNewEntries
 from factory import EnvLoader
-from twitter import Twitter
-from feeder import Feeder
+from infrastructure.twitter import Twitter
+from infrastructure.blog import Blog
 from last_entry_service import LastEntryService
 
 with description('App rss_to_telegram'):
@@ -21,12 +21,13 @@ with description('App rss_to_telegram'):
             my_logger = Spy()
             last_entry_datetimes = {'feed': datetime.now(pytz.utc), 'twitter': datetime.now(pytz.utc)}
             twitter = Twitter(env_loader)
-            feeder = Feeder(env_loader, feedparser)
+            feeder = Blog(env_loader, feedparser)
             last_entry_service = LastEntryService(env_loader, my_logger)
+            self.send_new_entries_use_case = SendNewEntries(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
 
             def executes_program_does_not_raise_error():
                 try:
-                    main(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
+                    self.send_new_entries_use_case.send()
                 except Exception as e:
                     print(e)
 

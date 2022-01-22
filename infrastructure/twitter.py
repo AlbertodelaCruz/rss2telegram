@@ -4,8 +4,10 @@ import os
 
 import tweepy
 
+from model.entry_service import EntryService
 
-class Twitter:
+
+class Twitter(EntryService):
     def __init__(self, env_loader):
         env_loader.load_dotenv()
         twitter_api_key = os.getenv('TWITTER_API_KEY')
@@ -23,10 +25,7 @@ class Twitter:
         timeline = self.api.user_timeline(screen_name=self.twitter_account)
         new_tweets = []
         for tweet in timeline:
-            published_time = datetime.strptime(tweet._json['created_at'], "%a %b %d %H:%M:%S %z %Y" )
-            if published_time > old_messages_datetime:
-                old_messages_datetime = published_time
-                new_tweets.append(tweet)
+            old_messages_datetime, new_tweets = self._append_new_tweets(tweet, new_tweets, old_messages_datetime)
         return old_messages_datetime, new_tweets
 
     def send_entries(self, entries):
@@ -34,3 +33,10 @@ class Twitter:
             telegram_body = {'chat_id':f'{self.bot_chatID}', 'parse_mode':'Markdown', 'text':f"{entry._json['text']}"}
             url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
             _ = requests.post(url, json=telegram_body)
+
+    def _append_new_tweets(self, tweet, tweets, old_messages_datetime):
+        published_time = datetime.strptime(tweet._json['created_at'], "%a %b %d %H:%M:%S %z %Y")
+        if published_time > old_messages_datetime:
+            old_messages_datetime = published_time
+            tweets.append(tweet)
+        return old_messages_datetime, tweets
