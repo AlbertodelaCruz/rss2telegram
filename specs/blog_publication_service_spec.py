@@ -9,7 +9,7 @@ from datetime import datetime
 from specs import object_mother
 
 from factory import EnvLoader
-from infrastructure.blog import Blog
+from model.blog_publication_service import BlogPublicationService
 
 
 with description('Feeder service') as self:
@@ -18,7 +18,7 @@ with description('Feeder service') as self:
             env_loader = Spy(EnvLoader)
             when(env_loader).load_dotenv().returns(load_dotenv('./system/.env.test'))
             self.feedparser = Spy()
-            self.feeder = Blog(env_loader, self.feedparser)
+            self.feeder = BlogPublicationService(env_loader, self.feedparser)
             self.published_date = 'Fri, 29 Oct 2022 13:06:57 +0000'
             self.published_entry = datetime.strptime(self.published_date, "%a, %d %b %Y %H:%M:%S %z")
 

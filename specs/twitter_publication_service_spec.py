@@ -3,13 +3,12 @@ from doublex import Spy, when, ANY_ARG
 from expects import expect, equal
 
 from dotenv import load_dotenv
-import os
 from datetime import datetime
 
 from specs import object_mother
 
 from factory import EnvLoader
-from infrastructure.twitter import Twitter
+from model.twitter_publication_service import TwitterPublicationService
 
 
 with description('Feeder service') as self:
@@ -18,7 +17,7 @@ with description('Feeder service') as self:
             env_loader = Spy(EnvLoader)
             self.twitter_api = Spy()
             when(env_loader).load_dotenv().returns(load_dotenv('./system/.env.test'))
-            self.twitter = Twitter(env_loader, self.twitter_api)
+            self.twitter = TwitterPublicationService(env_loader, self.twitter_api)
 
         with context('no tweets'):
             with it('returns saved datetime and empty list'):

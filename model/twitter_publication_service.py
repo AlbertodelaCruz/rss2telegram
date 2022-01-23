@@ -3,11 +3,10 @@ import requests
 import os
 
 
-from model.publication_service import PublicationService
 from model.publication.publication import Publication
 
 
-class Twitter(PublicationService):
+class TwitterPublicationService():
     def __init__(self, env_loader, twitter_api):
         env_loader.load_dotenv()
         self.twitter_account = os.getenv('TWITTER_ACCOUNT')

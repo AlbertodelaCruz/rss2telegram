@@ -2,11 +2,10 @@ from datetime import datetime
 import requests
 import os
 
-from model.publication_service import PublicationService
 from model.publication.publication import Publication
 
 
-class Blog(PublicationService):
+class BlogPublicationService():
     def __init__(self, env_loader, feedparser):
         env_loader.load_dotenv()
         self.blog_url = os.getenv('BLOG_URL')

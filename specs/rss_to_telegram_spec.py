@@ -5,16 +5,16 @@ from doublex_expects import have_been_called_with
 
 from specs import object_mother
 from use_case.send_new_publications import SendNewPublications
-from infrastructure.twitter import Twitter
-from infrastructure.blog import Blog
+from model.twitter_publication_service import TwitterPublicationService
+from model.blog_publication_service import BlogPublicationService
 
 with description('App rss_to_telegram') as self:
     with context('running the service'):
         with before.each:
             self.my_logger = Spy()
             self.last_entry_service = Spy()
-            self.twitter = Spy(Twitter)
-            self.feeder = Spy(Blog)
+            self.twitter = Spy(TwitterPublicationService)
+            self.feeder = Spy(BlogPublicationService)
             self.a_datetime = 'a_datetime'
             self.last_entry_datetimes = {'feed': self.a_datetime, 'twitter': self.a_datetime}
             self.a_feed_publication = object_mother.a_publication(date=self.a_datetime)
