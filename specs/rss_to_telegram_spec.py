@@ -1,13 +1,13 @@
-from mamba import description, context, it, before
 from doublex import Spy, when, ANY_ARG
-from expects import expect
 from doublex_expects import have_been_called_with
+from expects import expect
+from mamba import description, context, it, before
 
-from specs import object_mother
-from use_case.send_new_publications import SendNewPublications
-from model.twitter_publication_service import TwitterPublicationService
 from model.blog_publication_service import BlogPublicationService
 from model.telegram_notifier_service import TelegramNotifierService
+from model.twitter_publication_service import TwitterPublicationService
+from specs import object_mother
+from use_case.send_new_publications import SendNewPublications
 
 with description('App rss_to_telegram', 'unit') as self:
     with context('running the service'):

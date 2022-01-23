@@ -1,7 +1,9 @@
 import os
 import pickle
 from datetime import datetime
+
 import pytz
+
 from model.last_publication_retriever import LastPublicationRetriever
 
 

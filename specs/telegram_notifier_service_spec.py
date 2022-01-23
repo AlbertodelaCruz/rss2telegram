@@ -1,16 +1,13 @@
-from doublex_expects import have_been_called_with, have_been_called
-from mamba import description, context, it, before
-from doublex import Spy, when
-from expects import expect, contain, have_keys
-
 from dotenv import load_dotenv
-
-from model.telegram_notifier_service import TelegramNotifierService
-from infrastructure.request_wrapper import RequestsWrapper
-from specs import object_mother
+from doublex import Spy, when
+from doublex_expects import have_been_called_with, have_been_called
+from expects import expect, contain, have_keys
+from mamba import description, context, it, before
 
 from factory import EnvLoader
-
+from infrastructure.request_wrapper import RequestsWrapper
+from model.telegram_notifier_service import TelegramNotifierService
+from specs import object_mother
 
 with description('Telegram notifier service', 'unit') as self:
     with context('sending publications'):

@@ -1,15 +1,13 @@
-from mamba import description, context, it, before
-from doublex import Spy, when, ANY_ARG
-from expects import expect, equal
-
-from dotenv import load_dotenv
 from datetime import datetime
 
-from specs import object_mother
+from dotenv import load_dotenv
+from doublex import Spy, when, ANY_ARG
+from expects import expect, equal
+from mamba import description, context, it, before
 
 from factory import EnvLoader
 from model.twitter_publication_service import TwitterPublicationService
-
+from specs import object_mother
 
 with description('Twitter publication service', 'unit') as self:
     with context('getting new publications'):

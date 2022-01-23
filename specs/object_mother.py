@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import pytz
 
 from model.publication.publication import Publication

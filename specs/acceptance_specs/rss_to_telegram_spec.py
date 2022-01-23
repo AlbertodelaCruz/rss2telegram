@@ -1,18 +1,18 @@
-from mamba import description, context, it
+from datetime import datetime
+
+import feedparser
+import pytz
+from dotenv import load_dotenv
 from doublex import Spy, when
 from expects import expect, raise_error
+from mamba import description, context, it
 
-from dotenv import load_dotenv
-from datetime import datetime
-import pytz
-import feedparser
-
-from use_case.send_new_publications import SendNewPublications
 from factory import EnvLoader, TwitterAPI, request_wrapper
-from model.twitter_publication_service import TwitterPublicationService
+from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
 from model.blog_publication_service import BlogPublicationService
 from model.telegram_notifier_service import TelegramNotifierService
-from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
+from model.twitter_publication_service import TwitterPublicationService
+from use_case.send_new_publications import SendNewPublications
 
 with description('App rss_to_telegram', 'acceptance'):
     with context('running the service'):

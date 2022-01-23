@@ -1,7 +1,5 @@
-from datetime import datetime
-import requests
 import os
-
+from datetime import datetime
 
 from model.publication.publication import Publication
 
