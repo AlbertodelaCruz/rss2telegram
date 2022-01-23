@@ -29,8 +29,8 @@ def a_feed(author, custom_tag, published):
 def a_tweet(date):
     return Tweet(date)
 
-def a_publication(date, title=A_TITLE):
-    return Publication(date=date,title=title, content=A_CONTENT)
+def a_publication(date, title=A_TITLE, content=A_CONTENT):
+    return Publication(date=date,title=title, content=content)
 
 class Tweet:
     def __init__(self, date):

@@ -8,9 +8,10 @@ import pytz
 import feedparser
 
 from use_case.send_new_publications import SendNewPublications
-from factory import EnvLoader, TwitterAPI
+from factory import EnvLoader, TwitterAPI, request_wrapper
 from model.twitter_publication_service import TwitterPublicationService
 from model.blog_publication_service import BlogPublicationService
+from model.telegram_notifier_service import TelegramNotifierService
 from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
 
 with description('App rss_to_telegram', 'acceptance'):
@@ -24,7 +25,8 @@ with description('App rss_to_telegram', 'acceptance'):
             twitter = TwitterPublicationService(env_loader, twitter_client)
             feeder = BlogPublicationService(env_loader, feedparser)
             last_entry_service = LastPublicationFileRetriever(env_loader, my_logger)
-            self.send_new_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes)
+            telegram_notifier_service = TelegramNotifierService(env_loader, request_wrapper())
+            self.send_new_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes, telegram_notifier_service)
 
             def executes_program_does_not_raise_error():
                 self.send_new_entries_use_case.send()

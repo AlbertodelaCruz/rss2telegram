@@ -10,8 +10,6 @@ class BlogPublicationService():
         env_loader.load_dotenv()
         self.blog_url = os.getenv('BLOG_URL')
         self.feed_tags = os.getenv('FEED_TAGS').split(',')
-        self.bot_token = os.getenv('BOT_TOKEN')
-        self.bot_chatID = os.getenv('BOT_CHATID')
         self.blog_parser_repository = blog_parser_repository
 
     def get_new_publications(self, old_messages_datetime):
@@ -22,13 +20,6 @@ class BlogPublicationService():
         for entry in sorted_entries:
             old_messages_datetime, publications = self._append_new_publications(entry, publications, old_messages_datetime)
         return old_messages_datetime, publications
-
-    def send_publications(self, publications):
-        for publication in publications:
-            url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage?chat_id={self.bot_chatID}&parse_mode=Markdown&text={publication.title}"
-            _ = requests.get(url)
-            url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage?chat_id={self.bot_chatID}&parse_mode=Markdown&text={publication.content}"
-            _ = requests.get(url)
 
     def _append_new_publications(self, entry, publications, old_messages_datetime):
         published_time = datetime.strptime(entry['published'], "%a, %d %b %Y %H:%M:%S %z")

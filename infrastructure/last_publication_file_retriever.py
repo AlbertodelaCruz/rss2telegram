@@ -25,7 +25,7 @@ class LastPublicationFileRetriever(LastPublicationRetriever):
                 return pickle.load(last_entry_datetime_file)
         except Exception:
             self.my_logger.info("Load failed, taking current date")
-            #from datetime import timedelta
-            last_entry_datetime = datetime.now(pytz.utc)# - timedelta(10)
+            from datetime import timedelta
+            last_entry_datetime = datetime.now(pytz.utc) - timedelta(10)
             return {'feed': last_entry_datetime, 'twitter': last_entry_datetime}
 

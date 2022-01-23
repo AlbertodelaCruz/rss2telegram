@@ -1,11 +1,13 @@
 import os
 import tweepy
 import feedparser
+import requests
 from dotenv import load_dotenv
 from pathlib import Path
 import logging
 import logging.handlers
 from infrastructure.feed_parser_repository import FeedParserRepository
+from infrastructure.request_wrapper import RequestsWrapper
 
 
 class EnvLoader:
@@ -41,3 +43,6 @@ class TwitterAPI:
 
 def blog_parser_repository():
     return FeedParserRepository(feedparser)
+
+def request_wrapper():
+    return RequestsWrapper(requests)
