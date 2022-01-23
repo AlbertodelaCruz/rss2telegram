@@ -1,13 +1,17 @@
 default:
 	@printf "$$HELP"
+docker-build:
+	docker build . -t python-dev
+docker-tests:
+	docker run --rm -v "${PWD}:/usr/src/app" python-dev make tests
 tests:
-	mamba -f documentation specs
+	mamba specs
 unit-tests:
-	mamba -f documentation specs -t unit
+	mamba specs -t unit
 integration-tests:
-	mamba -f documentation specs -t integration
+	mamba specs -t integration
 acceptance-tests:
-	mamba -f documentation specs -t acceptance
+	mamba specs -t acceptance
 
 define HELP
 # Local commands
