@@ -6,16 +6,16 @@ from model.publication.publication import Publication
 
 
 class BlogPublicationService():
-    def __init__(self, env_loader, feedparser):
+    def __init__(self, env_loader, blog_parser_repository):
         env_loader.load_dotenv()
         self.blog_url = os.getenv('BLOG_URL')
         self.feed_tags = os.getenv('FEED_TAGS').split(',')
         self.bot_token = os.getenv('BOT_TOKEN')
         self.bot_chatID = os.getenv('BOT_CHATID')
-        self.parser = feedparser
+        self.blog_parser_repository = blog_parser_repository
 
     def get_new_publications(self, old_messages_datetime):
-        feed = self.parser.parse(self.blog_url)
+        feed = self.blog_parser_repository.parse(self.blog_url)
         entries = feed['entries']
         sorted_entries = sorted(entries, key=lambda d: d['published'])
         publications = []

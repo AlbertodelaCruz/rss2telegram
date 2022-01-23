@@ -11,20 +11,20 @@ from factory import EnvLoader
 from model.twitter_publication_service import TwitterPublicationService
 
 
-with description('Feeder service') as self:
-    with context('getting new entries'):
+with description('Twitter publication service', 'unit') as self:
+    with context('getting new publications'):
         with before.each:
             env_loader = Spy(EnvLoader)
             self.twitter_api = Spy()
             when(env_loader).load_dotenv().returns(load_dotenv('./system/.env.test'))
-            self.twitter = TwitterPublicationService(env_loader, self.twitter_api)
+            self.twitter_publication_service = TwitterPublicationService(env_loader, self.twitter_api)
 
         with context('no tweets'):
             with it('returns saved datetime and empty list'):
                 last_entry_datetime = object_mother.now()
                 when(self.twitter_api).user_timeline(ANY_ARG).returns([])
 
-                result = self.twitter.get_new_publications(last_entry_datetime)
+                result = self.twitter_publication_service.get_new_publications(last_entry_datetime)
 
                 expect(result).to(equal((last_entry_datetime, [])))
 
@@ -37,6 +37,6 @@ with description('Feeder service') as self:
                 when(self.twitter_api).user_timeline(ANY_ARG).returns([a_tweet])
                 last_entry_datetime = object_mother.now()
 
-                result = self.twitter.get_new_publications(last_entry_datetime)
+                result = self.twitter_publication_service.get_new_publications(last_entry_datetime)
 
                 expect(result).to(equal((published_entry, [a_publication])))

@@ -13,7 +13,7 @@ from model.twitter_publication_service import TwitterPublicationService
 from model.blog_publication_service import BlogPublicationService
 from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
 
-with description('App rss_to_telegram'):
+with description('App rss_to_telegram', 'acceptance'):
     with context('running the service'):
         with it('executes and finish correctly'):
             env_loader = Spy(EnvLoader)

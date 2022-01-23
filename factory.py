@@ -1,9 +1,11 @@
 import os
 import tweepy
+import feedparser
 from dotenv import load_dotenv
 from pathlib import Path
 import logging
 import logging.handlers
+from infrastructure.feed_parser_repository import FeedParserRepository
 
 
 class EnvLoader:
@@ -35,3 +37,7 @@ class TwitterAPI:
 
     def user_timeline(self, screen_name):
         return self._api.user_timeline(screen_name=screen_name)
+
+
+def blog_parser_repository():
+    return FeedParserRepository(feedparser)
