@@ -3,3 +3,5 @@ last_entry_datetime
 *.swp
 __pycache__/
 .idea
+/.coverage
+/htmlcov/
