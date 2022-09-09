@@ -1,5 +1,6 @@
 system/.env*
 last_entry_datetime
+last_board_message
 *.swp
 __pycache__/
 .idea
