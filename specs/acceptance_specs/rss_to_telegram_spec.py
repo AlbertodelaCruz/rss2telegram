@@ -30,8 +30,7 @@ with description('App rss_to_telegram', 'acceptance'):
             telegram_notifier_service = TelegramNotifierService(env_loader, request_wrapper())
             board_message_service = BoardMessagePublicationService(env_loader, blog_board_message_parser_repository())
             last_board_message_file_service = LastBoardMessageFileService(env_loader, my_logger)
-            last_board_message = None
-            self.send_new_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes, telegram_notifier_service, board_message_service, last_board_message_file_service, last_board_message)
+            self.send_new_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes, telegram_notifier_service, board_message_service, last_board_message_file_service)
 
             def executes_program_does_not_raise_error():
                 try:

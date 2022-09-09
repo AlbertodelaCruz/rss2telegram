@@ -28,7 +28,7 @@ with description('App rss_to_telegram', 'unit') as self:
             self.a_board_publication = object_mother.a_publication(date=self.a_datetime)
 
             self.send_new_entries_use_case = SendNewPublications(self.my_logger, self.last_entry_service, self.twitter_publication_service,
-                                                                 self.blog_publication_service, self.last_entry_datetimes, self.telegram_notifier_service, self.board_message_publication_service, self.last_board_message_service, self.last_board_message)
+                                                                 self.blog_publication_service, self.last_entry_datetimes, self.telegram_notifier_service, self.board_message_publication_service, self.last_board_message_service)
 
             when(self.blog_publication_service).get_new_publications(ANY_ARG).returns(('a_date', [self.a_feed_publication]))
             when(self.twitter_publication_service).get_new_publications(ANY_ARG).returns(('a_date', [self.a_twitter_publication]))

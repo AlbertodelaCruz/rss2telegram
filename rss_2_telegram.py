@@ -22,9 +22,8 @@ if __name__ == "__main__":
     last_board_message_service = LastBoardMessageFileService(env_loader, my_logger)
 
     last_entry_datetimes = last_entry_service.last_time_saved()
-    last_board_message = last_board_message_service.get_message()
 
-    send_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter_publication_service, blog_publication_service, last_entry_datetimes, telegram_notifier_service, board_message_publication_service, last_board_message_service, last_board_message)
+    send_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter_publication_service, blog_publication_service, last_entry_datetimes, telegram_notifier_service, board_message_publication_service, last_board_message_service)
 
     while True:
         send_entries_use_case.send()
