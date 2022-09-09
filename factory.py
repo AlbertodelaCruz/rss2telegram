@@ -9,6 +9,7 @@ import tweepy
 from dotenv import load_dotenv
 
 from infrastructure.feed_parser_repository import FeedParserRepository
+from infrastructure.blog_board_message_parser_repository import BlogBoardMessageParserRepository
 from infrastructure.request_wrapper import RequestsWrapper
 
 
@@ -45,6 +46,11 @@ class TwitterAPI:
 
 def blog_parser_repository():
     return FeedParserRepository(feedparser)
+
+
+def blog_board_message_parser_repository():
+    return BlogBoardMessageParserRepository()
+
 
 def request_wrapper():
     return RequestsWrapper(requests)

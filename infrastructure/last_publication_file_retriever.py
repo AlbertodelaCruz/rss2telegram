@@ -13,16 +13,16 @@ class LastPublicationFileRetriever(LastPublicationRetriever):
         self.last_entry_file_path = os.getenv('LAST_ENTRY_FILE_PATH')
         self.my_logger = my_logger
 
-    def get_file(self):
+    def _get_file(self):
         return self.last_entry_file_path
 
     def save_file(self, last_entry_datetimes):
-        with open(self.get_file(), 'wb') as last_entry_datetime_file:
+        with open(self._get_file(), 'wb') as last_entry_datetime_file:
             pickle.dump(last_entry_datetimes, last_entry_datetime_file)
 
     def last_time_saved(self):
         try:
-            with open(self.get_file(), 'rb') as last_entry_datetime_file:
+            with open(self._get_file(), 'rb') as last_entry_datetime_file:
                 self.my_logger.info("Loading last published date...")
                 return pickle.load(last_entry_datetime_file)
         except Exception:
