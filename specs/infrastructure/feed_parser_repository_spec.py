@@ -5,7 +5,7 @@ from mamba import description, context, it
 from doublex import Spy, when
 from expects import expect, have_keys
 
-from factory import EnvLoader
+from infrastructure.factory import EnvLoader
 from infrastructure.feed_parser_repository import FeedParserRepository
 
 

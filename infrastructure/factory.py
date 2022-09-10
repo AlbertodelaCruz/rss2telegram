@@ -16,7 +16,7 @@ from infrastructure.request_wrapper import RequestsWrapper
 
 class EnvLoader:
     def load_dotenv(self):
-        dotenv_path = Path('./system/.env')
+        dotenv_path = Path('../system/.env')
         load_dotenv(dotenv_path=dotenv_path)
 
 

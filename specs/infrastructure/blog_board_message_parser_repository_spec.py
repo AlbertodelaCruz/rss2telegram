@@ -4,7 +4,7 @@ from mamba import description, context, it
 from doublex import Spy, when, ANY_ARG
 from expects import expect, equal
 
-from factory import EnvLoader
+from infrastructure.factory import EnvLoader
 from infrastructure.blog_board_message_parser_repository import BlogBoardMessageParserRepository
 from specs.object_mother import FakeHTMLResponse
 

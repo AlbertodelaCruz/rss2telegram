@@ -7,7 +7,7 @@ from doublex import Spy, when
 from expects import expect, raise_error
 from mamba import description, context, it
 
-from factory import EnvLoader, TwitterAPI, request_wrapper, blog_board_message_parser_repository
+from infrastructure.factory import EnvLoader, TwitterAPI, request_wrapper, blog_board_message_parser_repository
 from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
 from model.blog_publication_service import BlogPublicationService
 from model.telegram_notifier_service import TelegramNotifierService

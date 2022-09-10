@@ -5,7 +5,7 @@ from doublex import Spy, when, ANY_ARG
 from expects import expect, equal
 from mamba import description, context, it, before
 
-from factory import EnvLoader
+from infrastructure.factory import EnvLoader
 from model.twitter_publication_service import TwitterPublicationService
 from specs import object_mother
 

@@ -1,6 +1,6 @@
 import time
 
-from factory import EnvLoader, Logger, TwitterAPI, blog_parser_repository, request_wrapper, blog_board_message_parser_repository
+from infrastructure.factory import EnvLoader, Logger, TwitterAPI, blog_parser_repository, request_wrapper, blog_board_message_parser_repository
 from model.twitter_publication_service import TwitterPublicationService
 from model.blog_publication_service import BlogPublicationService
 from model.telegram_notifier_service import TelegramNotifierService

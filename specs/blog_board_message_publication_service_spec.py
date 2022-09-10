@@ -4,7 +4,7 @@ from expects import expect, equal
 from mamba import description, context, it, before
 from freezegun import freeze_time
 
-from factory import EnvLoader
+from infrastructure.factory import EnvLoader
 from model.board_message_publication_service import BoardMessagePublicationService
 from specs import object_mother
 
