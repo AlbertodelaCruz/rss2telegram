@@ -15,6 +15,6 @@ class BoardMessagePublicationService():
         message = self.blog_table_parser_repository.get_message(self.blog_url)
         if message and message != old_message:
             now = datetime.now(pytz.utc)
-            publication = Publication(date=now, title='Nueva entrada en el tablón', content=message)
+            publication = Publication(date=now, title='Nueva entrada en el tablón 📋 ⬇️️', content=message)
             return message, [publication]
         return old_message, []

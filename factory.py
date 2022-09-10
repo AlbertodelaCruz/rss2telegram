@@ -6,6 +6,7 @@ from pathlib import Path
 import feedparser
 import requests
 import tweepy
+import urllib.request
 from dotenv import load_dotenv
 
 from infrastructure.feed_parser_repository import FeedParserRepository
@@ -49,7 +50,7 @@ def blog_parser_repository():
 
 
 def blog_board_message_parser_repository():
-    return BlogBoardMessageParserRepository()
+    return BlogBoardMessageParserRepository(urllib.request)
 
 
 def request_wrapper():

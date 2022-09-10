@@ -12,6 +12,7 @@ Rss2Telegram uses .env files to retrieve setting information. To get a full feat
 
 ### Blog config
 - BLOG_URL 
+- BLOG_TABLE_URL
 - FEED_TAGS 
 
 ### Twitter config
@@ -23,3 +24,6 @@ Rss2Telegram uses .env files to retrieve setting information. To get a full feat
 
 ### File config (it saves last publication datetime in order to keep track)
 - LAST_ENTRY_FILE_PATH
+
+### File config for board message (it saves last publication board message)
+- LAST_ENTRY_BOARD_MESSAGE_FILE_PATH
