@@ -35,6 +35,7 @@ jobs:
       run: |
         touch ./system/.env.test
         echo FEED_TAGS=${{ env.FEED_TAGS }} >> ./system/.env.test
+        cat ./system/.env.test
     - name: Unit Tests
       run: |
         mamba --tags='unit'
