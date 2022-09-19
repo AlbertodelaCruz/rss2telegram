@@ -34,7 +34,10 @@ def a_publication(date, title=A_TITLE, content=A_CONTENT):
     return Publication(date=date,title=title, content=content)
 
 def a_blog_board_html_response():
-    return b'<!DOCTYPE html>\n<html lang="es">\n<head>\n\t<meta charset="UTF-8" />\n<meta http-equiv="X-UA-Compatible" content="IE=edge">\n\t<link rel="pingback" href="https://blogshumanitastorrejon.com/xmlrpc.php" />\n\n\t<script type="text/javascript">\n\t\tdocument.documentElement.className = \'js\';\n\t</script>\n\n\t<title>Blog de 2.\xc2\xba de infantil (4 a\xc3\xb1os) | Blogs del Colegio Humanitas Torrej\xc3\xb3n</title><div class="et_pb_module et_pb_text et_pb_text_0  et_pb_text_align_left et_pb_bg_layout_light">\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t<div class="et_pb_text_inner"><p>Necesitamos un paquete de toallitas para el lunes 12. Gracias.</p></div>\n\t\t\t</div>\n\t\t\t</div></body>\n</html>'
+    return b'<!DOCTYPE html>\n<html lang="es">\n<head>\n\t<meta charset="UTF-8" />\n<meta http-equiv="X-UA-Compatible" content="IE=edge">\n\t<link rel="pingback" href="https://blogshumanitastorrejon.com/xmlrpc.php" />\n\n\t<script type="text/javascript">\n\t\tdocument.documentElement.className = \'js\';\n\t</script>\n\n\t<title>Blog de 2.\xc2\xba de infantil (4 a\xc3\xb1os) | Blogs del Colegio Humanitas Torrej\xc3\xb3n</title><div class="et_pb_module et_pb_text et_pb_text_0  et_pb_text_align_left et_pb_bg_layout_light">\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t<div class="et_pb_text_inner"><p>Necesitamos un paquete de toallitas para el lunes 12. Gracias.</p></div><div class="et_pb_text_inner"><h2>\xc3\x9altimas entradas</h2></div>\n\t\t\t</div>\n\t\t\t</div></body>\n</html>'
+
+def a_blog_board_html_response_with_no_content():
+    return b'<!DOCTYPE html>\n<html lang="es">\n<head>\n\t<meta charset="UTF-8" />\n<meta http-equiv="X-UA-Compatible" content="IE=edge">\n\t<link rel="pingback" href="https://blogshumanitastorrejon.com/xmlrpc.php" />\n\n\t<script type="text/javascript">\n\t\tdocument.documentElement.className = \'js\';\n\t</script>\n\n\t<title>Blog de 2.\xc2\xba de infantil (4 a\xc3\xb1os) | Blogs del Colegio Humanitas Torrej\xc3\xb3n</title><div class="et_pb_module et_pb_text et_pb_text_0  et_pb_text_align_left et_pb_bg_layout_light">\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t\n\t\t\t\t<div class="et_pb_text_inner"><h2>\xc3\x9altimas entradas</h2></div>\n\t\t\t</div>\n\t\t\t</div></body>\n</html>'
 
 
 class Tweet:
@@ -46,3 +49,8 @@ class Tweet:
 class FakeHTMLResponse:
     def read(self):
         return a_blog_board_html_response()
+
+
+class FakeHTMLNoMessageResponse:
+    def read(self):
+        return a_blog_board_html_response_with_no_content()

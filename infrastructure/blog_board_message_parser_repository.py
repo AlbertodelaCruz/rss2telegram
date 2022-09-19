@@ -11,4 +11,5 @@ class BlogBoardMessageParserRepository(BoardMessageParserRepository):
         html = self._requester.urlopen(url).read().decode('utf-8')
         soup = BeautifulSoup(html, 'html.parser')
         if messages := soup.find_all("div", class_="et_pb_text_inner"):
-            return messages[0].get_text()
+            messages_with_content = [message for message in messages if 'Últimas entradas' not in message.get_text()]
+            return messages_with_content[0].get_text() if messages_with_content else None

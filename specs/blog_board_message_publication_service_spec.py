@@ -22,7 +22,7 @@ with description('Blog board message publication service', 'unit') as self:
                 with freeze_time(last_entry_datetime):
                     now = object_mother.now()
                     when(self.blog_board_parser_repository).get_message(ANY_ARG).returns('a message')
-                    a_publication = object_mother.a_publication(date=now, title='Nueva entrada en el tablón 📋 ⬇️️', content='a message')
+                    a_publication = object_mother.a_publication(date=now, title='Nueva entrada en el tablón (https://blogshumanitastorrejon.com/blog-de-2o-de-infantil-4-anos/) 📋 ⬇️️', content='a message')
 
                     result = self.blog_board_message_publication_service.get_new_publications('old message')
 
