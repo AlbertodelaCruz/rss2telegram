@@ -14,17 +14,14 @@ class SendNewPublications:
         self._last_entry_datetimes['feed'], new_feed_publications = self._blog_publication_service.get_new_publications(self._last_entry_datetimes['feed'])
         self._last_entry_datetimes['twitter'], new_twitter_publications = self._twitter_publication_service.get_new_publications(self._last_entry_datetimes['twitter'])
         last_board_message, new_board_message_publications = self._blog_board_message_publication_service.get_new_publications(self._last_board_message_service.get_message())
+        publications = new_feed_publications + new_twitter_publications + new_board_message_publications
 
-        for new_publication in new_feed_publications:
-            self._my_logger.info(f"New feed publication: {new_publication.title}")
-        for new_publication in new_twitter_publications:
-            self._my_logger.info(f"New twitter publication: {new_publication.content}")
+        for publication in publications:
+            self._my_logger.info(f"New publication: {publication.title or publication.content}")
 
         self._last_entry_service.save_file(self._last_entry_datetimes)
         self._last_board_message_service.save(last_board_message)
 
         self._my_logger.info("Sending new publications...")
-        self._telegram_notifier_service.send_publications(new_feed_publications)
-        self._telegram_notifier_service.send_publications(new_twitter_publications)
-        self._telegram_notifier_service.send_publications(new_board_message_publications)
+        self._telegram_notifier_service.send_publications(publications)
         self._my_logger.info("Publications sent...")

@@ -49,18 +49,7 @@ with description('App rss_to_telegram', 'unit') as self:
 
             expect(self.board_message_publication_service.get_new_publications).to(have_been_called_with(self.last_board_message))
 
-        with it('sends to telegram new feeds'):
+        with it('sends to telegram new publications'):
             self.send_new_entries_use_case.send()
 
-            expect(self.telegram_notifier_service.send_publications).to(have_been_called_with([self.a_feed_publication]))
-
-        with it('sends to telegram new tweets'):
-            self.send_new_entries_use_case.send()
-
-            expect(self.telegram_notifier_service.send_publications).to(have_been_called_with([self.a_twitter_publication]))
-
-        with it('sends to telegram new board message'):
-            self.send_new_entries_use_case.send()
-
-            expect(self.telegram_notifier_service.send_publications).to(have_been_called_with([self.a_board_publication]))
-
+            expect(self.telegram_notifier_service.send_publications).to(have_been_called_with([self.a_feed_publication, self.a_twitter_publication, self.a_board_publication]))
