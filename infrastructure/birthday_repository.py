@@ -16,9 +16,12 @@ class BirthdayRepository:
 
 
 class YamlWrapper:
+    def __init__(self, my_logger):
+        self.my_logger = my_logger
+
     def load(self):
         with open(os.getenv('BIRTHDAY_FILE'), "r") as stream:
             try:
                 return yaml.safe_load(stream)
             except yaml.YAMLError as exc:
-                print(exc)
+                self.my_logger.info(exc)

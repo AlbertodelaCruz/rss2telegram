@@ -63,5 +63,5 @@ def birthday_repository():
 
 
 def _yaml_wrapper():
-    return YamlWrapper()
-
+    my_logger = Logger.get_logger()
+    return YamlWrapper(my_logger)
