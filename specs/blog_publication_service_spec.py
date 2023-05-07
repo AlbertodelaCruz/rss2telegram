@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from dotenv import load_dotenv
 from doublex import Spy, when, ANY_ARG
@@ -37,7 +37,7 @@ with description('Blog publication service', 'unit') as self:
                 a_feed = object_mother.a_feed(os.getenv('FEED_AUTHOR'), a_tag_permitted, self.published_date)
                 a_publication = object_mother.a_publication(date=self.published_entry)
                 when(self.blog_parser_repository).parse(ANY_ARG).returns({'entries': [a_feed]})
-                last_entry_datetime = object_mother.now()
+                last_entry_datetime = self.published_entry - timedelta(days=1)
 
                 result = self.blog_publication_service.get_new_publications(last_entry_datetime)
 

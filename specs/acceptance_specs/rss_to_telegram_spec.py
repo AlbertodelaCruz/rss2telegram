@@ -7,12 +7,13 @@ from doublex import Spy, when
 from expects import expect, raise_error
 from mamba import description, context, it
 
-from infrastructure.factory import EnvLoader, TwitterAPI, request_wrapper, blog_board_message_parser_repository
+from infrastructure.factory import EnvLoader, TwitterAPI, request_wrapper, blog_board_message_parser_repository, birthday_repository
 from infrastructure.last_publication_file_retriever import LastPublicationFileRetriever
 from model.blog_publication_service import BlogPublicationService
 from model.telegram_notifier_service import TelegramNotifierService
 from model.twitter_publication_service import TwitterPublicationService
 from model.board_message_publication_service import BoardMessagePublicationService
+from model.birthday_service import BirthdayService
 from infrastructure.last_board_message_file_service import LastBoardMessageFileService
 from use_case.send_new_publications import SendNewPublications
 
@@ -30,7 +31,8 @@ with description('App rss_to_telegram', 'acceptance'):
             telegram_notifier_service = TelegramNotifierService(env_loader, request_wrapper())
             board_message_service = BoardMessagePublicationService(env_loader, blog_board_message_parser_repository())
             last_board_message_file_service = LastBoardMessageFileService(env_loader, my_logger)
-            self.send_new_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes, telegram_notifier_service, board_message_service, last_board_message_file_service)
+            birthday_service = BirthdayService(birthday_repository())
+            self.send_new_entries_use_case = SendNewPublications(my_logger, last_entry_service, twitter, feeder, last_entry_datetimes, telegram_notifier_service, board_message_service, last_board_message_file_service, birthday_service)
 
             def executes_program_does_not_raise_error():
                 try:

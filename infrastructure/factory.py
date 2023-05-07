@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from infrastructure.feed_parser_repository import FeedParserRepository
 from infrastructure.blog_board_message_parser_repository import BlogBoardMessageParserRepository
 from infrastructure.request_wrapper import RequestsWrapper
+from infrastructure.birthday_repository import BirthdayRepository, YamlWrapper
 
 
 class EnvLoader:
@@ -55,3 +56,12 @@ def blog_board_message_parser_repository():
 
 def request_wrapper():
     return RequestsWrapper(requests)
+
+
+def birthday_repository():
+    return BirthdayRepository(_yaml_wrapper())
+
+
+def _yaml_wrapper():
+    return YamlWrapper()
+
