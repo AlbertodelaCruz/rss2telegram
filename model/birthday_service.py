@@ -1,5 +1,4 @@
 from datetime import datetime
-from datetime import timedelta
 import pytz
 
 from model.publication.publication import Publication
@@ -11,7 +10,7 @@ class BirthdayService:
         self._sent_for_today = False
 
     def get_new_publications(self):
-        now = datetime.now(pytz.utc)
+        now = datetime.now()
         publications = []
         if now.hour == 7:
             self._sent_for_today = False

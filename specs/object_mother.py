@@ -15,7 +15,7 @@ def the_day_after(datetime):
     return datetime + timedelta(days=1)
 
 def one_day_at_8():
-    return datetime(2023, 1, 1, hour=8, minute=0, second=0, tzinfo=pytz.utc)
+    return datetime(2023, 1, 1, hour=8, minute=0, second=0)
 
 def a_feed(author, custom_tag, published):
     return dict(title=A_TITLE, title_detail={'type': 'text/plain', 'language': None, 'base': 'https://foo.com/feed/',
