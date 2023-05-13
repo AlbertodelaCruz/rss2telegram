@@ -36,6 +36,7 @@ jobs:
         echo TWITTER_ACCOUNT=${{ secrets.TWITTER_ACCOUNT }} >> ./system/.env.test
         echo TWITTER_API_KEY=${{ secrets.TWITTER_API_KEY }} >> ./system/.env.test
         echo TWITTER_API_SECRET=${{ secrets.TWITTER_API_SECRET }} >> ./system/.env.test
+        echo BIRTHDAY_FILE='./specs/acceptance_specs/birthdays.yml' >> ./system/.env.test
     - name: Unit Tests
       run: |
         mamba --tags='unit'
